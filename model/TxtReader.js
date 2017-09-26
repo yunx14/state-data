@@ -24,7 +24,7 @@ function readLines(input, func) {
       func(remaining);
     };
     var buff = Buffer.from(JSON.stringify(stateData));
-    fs.writeFile('model/financialRecords.json', buff,  function(err) {
+    fs.writeFile('public/javascripts/financialRecords.json', buff,  function(err) {
       if (err) {
         return console.error(err);
       }
