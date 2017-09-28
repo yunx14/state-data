@@ -8,14 +8,29 @@ var Map = (function(){
 		if (el) {
 			svg = d3.select("#"+el);
 			datum = data;
-			bindToEl(svg, data);
+			//bindToEl(svg, data);
+			mergeData(svg);
 		} else {
 			console.log("please supply an element to bind");
 		}
 	}
 
-	function bindToEl(svg, data) {
+	function mergeData(svgEl) {
+		d3.json("/javascripts/financialRecords.json", function(data) {
+			for (var state in data) {
+				if (data.hasOwnProperty(state) && (typeof data[state] == "object")) {
+				 	var result = datum.filter(function(datum) {
+				        return datum.n.toLowerCase() == state.toLowerCase();
+				    });
+				    data[state]["path"] = result[0].d;
+				 } 
+			}
+			console.log(data);
+			bindToEl(svgEl, data);
+		});
+	}
 
+	function bindToEl(svg, data) {
 	  svg.selectAll("path")
 	  	.data(data)
 	  	.enter()
@@ -24,7 +39,7 @@ var Map = (function(){
 	  		return d.State;
 	  	})
 	  	.attr("d", function(d) {
-	  		return d.d;
+	  		return d.path;
 	  	});
 	}
 
