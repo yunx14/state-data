@@ -22,11 +22,12 @@ var Map = (function(){
 				 	var result = datum.filter(function(datum) {
 				        return datum.n.toLowerCase() == state.toLowerCase();
 				    });
-				    data[state]["path"] = result[0].d;
+			    	for (var record in data[state]) {
+			    		result[0][record] = data[state][record];
+			 		}
 				 } 
 			}
-			console.log(data);
-			bindToEl(svgEl, data);
+			bindToEl(svgEl, datum);
 		});
 	}
 
@@ -36,10 +37,18 @@ var Map = (function(){
 	  	.enter()
 	  	.append("path")
 	  	.attr("class", function(d) {
-	  		return d.State;
+	  		return d.n;
 	  	})
 	  	.attr("d", function(d) {
-	  		return d.path;
+	  		return d.d;
+	  	});
+
+	  	svg.selectAll("text")
+	  	.data(data)
+	  	.enter()
+	  	.append("text")
+	  	.text(function(d) {
+	  		return d.a;
 	  	});
 	}
 

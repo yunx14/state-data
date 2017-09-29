@@ -1,7 +1,7 @@
 var fs = require('fs');
 var stateLookupTable = require("../model/stateLookup");
 var itemCodeLookupTable = require("../model/itemCodeLookup");
-var input = fs.createReadStream('./model/rawdata/financialdata.txt');
+var input = fs.createReadStream('../model/rawdata/financialdata.txt');
 
 var stateData = {};
 
@@ -24,7 +24,7 @@ function readLines(input, func) {
       func(remaining);
     };
     var buff = Buffer.from(JSON.stringify(stateData));
-    fs.writeFile('public/javascripts/financialRecords.json', buff,  function(err) {
+    fs.writeFile('../public/javascripts/financialRecords.json', buff,  function(err) {
       if (err) {
         return console.error(err);
       }
@@ -36,7 +36,7 @@ function func(data) {
   var dateYear = data.substring(34, 36);
   var state = stateLookupTable[data.substring(0, 2)];
   var amount = data.substring(17, 32);
-  var item = itemCodeLookupTable[data.substring(14, 17)];
+  var item = data.substring(14, 17);
 
   if (data.substring(0, 2) == 00) {
     return;
